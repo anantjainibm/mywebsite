@@ -15,17 +15,19 @@ pipeline {
         }
 
         stage('Build') {
-            steps {
-                sh 'mvn clean package'
-            }
+    steps {
+        withMaven(maven: 'maven') {
+            sh 'mvn clean package'
         }
-
+    }
+}
         stage('Test') {
-            steps {
-                sh 'mvn test'
-            }
+    steps {
+        withMaven(maven: 'maven') {
+            sh 'mvn test'
         }
-
+    }
+}
         stage('Deploy') {
             steps {
                 sshagent(['ec2-ssh-key']) {
